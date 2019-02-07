@@ -32,7 +32,7 @@ defmodule Pleroma.Web.TwitterAPI.UserViewTest do
 
   test "A user with emoji in username" do
     expected =
-      "<img alt=\"karjalanpiirakka\" title=\"karjalanpiirakka\" src=\"/file.png\" /> man"
+      "<img class=\"emoji\" alt=\"karjalanpiirakka\" title=\"karjalanpiirakka\" src=\"/file.png\" /> man"
 
     user =
       insert(:user, %{

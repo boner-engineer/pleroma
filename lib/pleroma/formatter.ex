@@ -52,7 +52,7 @@ defmodule Pleroma.Formatter do
         text,
         ":#{emoji}:",
         if not strip do
-          "<img alt='#{emoji}' title='#{emoji}' src='#{MediaProxy.url(file)}' />"
+          "<img class='emoji' alt='#{emoji}' title='#{emoji}' src='#{MediaProxy.url(file)}' />"
         else
           ""
         end

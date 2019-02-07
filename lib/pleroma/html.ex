@@ -110,8 +110,7 @@ defmodule Pleroma.HTML.Scrubber.TwitterText do
     Meta.allow_tag_with_uri_attributes("img", ["src"], ["http", "https"])
 
     Meta.allow_tag_with_these_attributes("img", [
-      "width",
-      "height",
+      "class",
       "title",
       "alt"
     ])
@@ -162,8 +161,7 @@ defmodule Pleroma.HTML.Scrubber.Default do
     Meta.allow_tag_with_uri_attributes("img", ["src"], ["http", "https"])
 
     Meta.allow_tag_with_these_attributes("img", [
-      "width",
-      "height",
+      "class",
       "title",
       "alt"
     ])

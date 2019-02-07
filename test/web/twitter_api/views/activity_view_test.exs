@@ -84,7 +84,7 @@ defmodule Pleroma.Web.TwitterAPI.ActivityViewTest do
     expected = ":woollysocks: meow"
 
     expected_html =
-      "<img height=\"32px\" width=\"32px\" alt=\"woollysocks\" title=\"woollysocks\" src=\"http://localhost:4001/finmoji/128px/woollysocks-128.png\" /> meow"
+      "<img alt=\"woollysocks\" title=\"woollysocks\" src=\"http://localhost:4001/finmoji/128px/woollysocks-128.png\" /> meow"
 
     assert result["summary"] == expected
     assert result["summary_html"] == expected_html

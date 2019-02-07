@@ -132,7 +132,7 @@ defmodule Pleroma.Web.TwitterAPI.Representers.ActivityRepresenterTest do
     }
 
     expected_html =
-      "<p>2hu <img height=\"32px\" width=\"32px\" alt=\"2hu\" title=\"2hu\" src=\"corndog.png\" /></p>alert('YAY')Some <img height=\"32px\" width=\"32px\" alt=\"2hu\" title=\"2hu\" src=\"corndog.png\" /> content mentioning <a href=\"#{
+      "<p>2hu <img alt=\"2hu\" title=\"2hu\" src=\"corndog.png\" /></p>alert('YAY')Some <img alt=\"2hu\" title=\"2hu\" src=\"corndog.png\" /> content mentioning <a href=\"#{
         mentioned_user.ap_id
       }\">@shp</a>"
 
@@ -170,7 +170,7 @@ defmodule Pleroma.Web.TwitterAPI.Representers.ActivityRepresenterTest do
       "card" => nil,
       "summary" => "2hu :2hu:",
       "summary_html" =>
-        "2hu <img height=\"32px\" width=\"32px\" alt=\"2hu\" title=\"2hu\" src=\"corndog.png\" />"
+        "2hu <img alt=\"2hu\" title=\"2hu\" src=\"corndog.png\" />"
     }
 
     assert ActivityRepresenter.to_map(activity, %{

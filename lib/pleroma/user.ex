@@ -1182,24 +1182,17 @@ defmodule Pleroma.User do
     end
   end
 
-  def parse_bio(bio, user \\ %User{info: %{source_data: %{}}})
-  def parse_bio(nil, _user), do: ""
-  def parse_bio(bio, _user) when bio == "", do: bio
+  def parse_bio(bio)
 
-  def parse_bio(bio, user) do
+  def parse_bio(nil), do: ""
+  def parse_bio(""), do: ""
+
+  def parse_bio(bio) do
     mentions = Formatter.parse_mentions(bio)
     tags = Formatter.parse_tags(bio)
 
-    emoji =
-      (user.info.source_data["tag"] || [])
-      |> Enum.filter(fn %{"type" => t} -> t == "Emoji" end)
-      |> Enum.map(fn %{"icon" => %{"url" => url}, "name" => name} ->
-        {String.trim(name, ":"), url}
-      end)
-
     bio
     |> CommonUtils.format_input(mentions, tags, "text/plain", user_links: [format: :full])
-    |> Formatter.emojify(emoji)
   end
 
   def tag(user_identifiers, tags) when is_list(user_identifiers) do

@@ -1141,7 +1141,10 @@ defmodule Pleroma.User do
       end)
 
     bio
-    |> CommonUtils.format_input(mentions, tags, "text/plain", user_links: [format: :full])
+    |> CommonUtils.format_input(mentions, tags, "text/plain", %{
+      user_links: [format: :full],
+      for_user: user
+    })
     |> Formatter.emojify(emoji)
   end
 

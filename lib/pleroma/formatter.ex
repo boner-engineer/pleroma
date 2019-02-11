@@ -7,6 +7,7 @@ defmodule Pleroma.Formatter do
   alias Pleroma.HTML
   alias Pleroma.User
   alias Pleroma.Web.MediaProxy
+  alias Pleroma.Web.RelMe
 
   @tag_regex ~r/((?<=[^&])|\A)(\#)(\w+)/u
   @markdown_characters_regex ~r/(`|\*|_|{|}|[|]|\(|\)|#|\+|-|\.|!)/
@@ -106,23 +107,6 @@ defmodule Pleroma.Formatter do
     end)
   end
 
-  defp maybe_put_rel_me(target_page, urls) do
-    true = String.starts_with?(target_page, ["http://", "https://"])
-
-    rel_me_links =
-      Floki.attribute(html, "link[rel=me]", "href") ++ Floki.attribute(html, "a[rel=me]", "href")
-
-    true = Enum.any?(rel_me_links, fn x -> x in urls end)
-
-    "rel=\"me\" "
-  else
-    ""
-  end
-
-  defp maybe_put_rel_me(_, nil) do
-    ""
-  end
-
   @doc "changes scheme:... urls to html links"
   def add_links({subs, text}, options \\ []) do
     links =
@@ -148,7 +132,7 @@ defmodule Pleroma.Formatter do
     subs =
       subs ++
         Enum.map(links, fn {uuid, url} ->
-          {uuid, "<a #{maybe_put_rel_me(url, profile_urls)}href=\"#{url}\">#{url}</a>"}
+          {uuid, "<a #{RelMe.maybe_put_rel_me(url, profile_urls)}href=\"#{url}\">#{url}</a>"}
         end)
 
     {subs, uuid_text}

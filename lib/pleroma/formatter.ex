@@ -108,7 +108,7 @@ defmodule Pleroma.Formatter do
   end
 
   @doc "changes scheme:... urls to html links"
-  def add_links({subs, text}, options \\ []) do
+  def add_links({subs, text}, for_user \\ %{}) do
     links =
       text
       |> String.split([" ", "\t", "<br>"])
@@ -122,9 +122,9 @@ defmodule Pleroma.Formatter do
       |> Enum.reduce(text, fn {uuid, url}, acc -> String.replace(acc, url, uuid) end)
 
     profile_urls =
-      if options[:for_user] do
+      if for_user[:ap_id] do
         # TODO: get profile URLs other than user.ap_id
-        options[:for_user][:ap_id]
+        for_user[:ap_id]
       else
         nil
       end

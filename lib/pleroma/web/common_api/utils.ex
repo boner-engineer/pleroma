@@ -129,7 +129,7 @@ defmodule Pleroma.Web.CommonAPI.Utils do
     |> Formatter.html_escape("text/plain")
     |> String.replace(~r/\r?\n/, "<br>")
     |> (&{[], &1}).()
-    |> Formatter.add_links(%{for_user: options[:for_user]})
+    |> Formatter.add_links(options[:for_user])
     |> Formatter.add_user_links(mentions, options[:user_links] || [])
     |> Formatter.add_hashtag_links(tags)
     |> Formatter.finalize()

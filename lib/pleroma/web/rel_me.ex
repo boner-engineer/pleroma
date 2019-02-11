@@ -32,7 +32,7 @@ defmodule Pleroma.Web.RelMe do
     e -> {:error, "Parsing error: #{inspect(e)}"}
   end
 
-  def maybe_put_rel_me("http"<>_ = target_page, urls) do
+  def maybe_put_rel_me("http" <> _ = target_page, urls) when not is_nil(urls) do
     if Enum.any?(parse(target_page), fn x -> x in urls end) do
       "rel=\"me\" "
     else
@@ -40,7 +40,7 @@ defmodule Pleroma.Web.RelMe do
     end
   end
 
-  def maybe_put_rel_me(_, nil) do
+  def maybe_put_rel_me(_, _) do
     ""
   end
 end

@@ -1521,6 +1521,20 @@ defmodule Pleroma.Web.TwitterAPI.ControllerTest do
 
       assert json_response(conn, 200) == UserView.render("user.json", %{user: user, for: user})
     end
+
+    test "it formats emojos", %{conn: conn} do
+      user = insert(:user)
+
+      conn =
+        conn
+        |> assign(:user, user)
+        |> post("/api/account/update_profile.json", %{
+          "bio" => "I love our :moominmamma:​"
+        })
+
+      assert %{"bio" => "I love our <img class='emoji' alt=':moominmamma:'/>"} =
+               json_response(conn, 200)
+    end
   end
 
   defp valid_user(_context) do

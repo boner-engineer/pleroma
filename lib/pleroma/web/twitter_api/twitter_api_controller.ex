@@ -665,20 +665,29 @@ defmodule Pleroma.Web.TwitterAPI.Controller do
     User.Info.profile_update(user.info, info_params)
   end
 
-  defp parse_profile_bio(params) do
+  defp parse_profile_bio(params, user) do
     if params["description"] do
       bio =
         params["description"]
         |> User.parse_bio()
 
-      Map.put(params, "bio", bio)
+      user_info =
+        user.info
+        |> Map.put(
+          "emojis",
+          Formatter.get_emoji_map(params["description"])
+        )
+
+      params
+      |> Map.put("bio", bio)
+      |> Map.put("info", user_info)
     else
       params
     end
   end
 
   def update_profile(%{assigns: %{user: user}} = conn, params) do
-    params = parse_profile_bio(params)
+    params = parse_profile_bio(params, user)
     info_cng = build_info_cng(user, params)
 
     with changeset <- User.update_changeset(user, params),

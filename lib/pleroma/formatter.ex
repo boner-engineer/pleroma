@@ -67,11 +67,22 @@ defmodule Pleroma.Formatter do
 
   def demojify(text, nil), do: text
 
+  @doc "Outputs a list of the emoji-shortcodes in a text"
   def get_emoji(text) when is_binary(text) do
     Enum.filter(Emoji.get_all(), fn {emoji, _} -> String.contains?(text, ":#{emoji}:") end)
   end
 
   def get_emoji(_), do: []
+
+  @doc "Outputs a list of the emoji-Maps in a text"
+  def get_emoji_map(text) when is_binary(text) do
+    get_emoji(text)
+    |> Enum.reduce(%{}, fn {name, file}, acc ->
+      Map.put(acc, name, "#{Pleroma.Web.Endpoint.static_url()}#{file}")
+    end)
+  end
+
+  def get_emoji_map(_), do: []
 
   @link_regex ~r/[0-9a-z+\-\.]+:[0-9a-z$-_.+!*'(),]+/ui
 

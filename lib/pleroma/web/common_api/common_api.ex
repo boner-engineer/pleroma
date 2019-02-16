@@ -136,7 +136,7 @@ defmodule Pleroma.Web.CommonAPI do
            Map.put(
              object,
              "emoji",
-             Formatter.get_emoji_map((status ++ data["spoiler_text"]))
+             Formatter.get_emoji_map(status ++ data["spoiler_text"])
            ) do
       res =
         ActivityPub.create(%{

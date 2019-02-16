@@ -37,7 +37,7 @@ defmodule Pleroma.User.Info do
     field(:hide_follows, :boolean, default: false)
     field(:pinned_activities, {:array, :string}, default: [])
     field(:flavour, :string, default: nil)
-    field(:emojis, {:array, :map}, default: [])
+    field(:emoji, {:array, :map}, default: [])
 
     # Found in the wild
     # ap_id -> Where is this used?

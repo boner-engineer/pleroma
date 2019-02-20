@@ -359,12 +359,19 @@ defmodule Pleroma.Web.MastodonAPI.MastodonAPIController do
         _ -> Ecto.UUID.generate()
       end
 
-    {:ok, activity} =
-      Cachex.fetch!(:idempotency_cache, idempotency_key, fn _ -> CommonAPI.post(user, params) end)
-
-    conn
-    |> put_view(StatusView)
-    |> try_render("status.json", %{activity: activity, for: user, as: :activity})
+    with {:ok, activity} <-
+           Cachex.fetch!(:idempotency_cache, idempotency_key, fn _ ->
+             CommonAPI.post(user, params)
+           end) do
+      conn
+      |> put_view(StatusView)
+      |> try_render("status.json", %{activity: activity, for: user, as: :activity})
+    else
+      _e ->
+        conn
+        |> put_status(400)
+        |> json(%{error: "MRF related error"})
+    end
   end
 
   def delete_status(%{assigns: %{user: user}} = conn, %{"id" => id}) do

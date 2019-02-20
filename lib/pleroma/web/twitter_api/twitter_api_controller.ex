@@ -45,7 +45,12 @@ defmodule Pleroma.Web.TwitterAPI.Controller do
       conn
       |> json(ActivityView.render("activity.json", activity: activity, for: user))
     else
-      _ -> empty_status_reply(conn)
+      {:error, _} ->
+        json = error_json(conn, "MRF related error")
+        json_reply(conn, 400, json)
+
+      _ ->
+        empty_status_reply(conn)
     end
   end
 

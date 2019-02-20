@@ -165,6 +165,9 @@ defmodule Pleroma.Web.ActivityPub.ActivityPub do
          {:ok, _actor} <- User.increase_note_count(actor),
          :ok <- maybe_federate(activity) do
       {:ok, activity}
+    else
+      {:error, error} ->
+        {:error, error}
     end
   end
 

@@ -151,6 +151,8 @@ defmodule Pleroma.Web.CommonAPI do
         })
 
       res
+    else
+      {:error, error} -> {:error, error}
     end
   end
 

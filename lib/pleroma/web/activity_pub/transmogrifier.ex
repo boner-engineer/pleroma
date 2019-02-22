@@ -797,7 +797,7 @@ defmodule Pleroma.Web.ActivityPub.Transmogrifier do
     |> Map.put("tag", tags ++ mentions)
   end
 
-  def add_emoji_tags(%User{"info" => %{"emoji" => _emoji} = user_info} = _object) do
+  def add_emoji_tags(%User{info: %{"emoji" => _emoji} = user_info} = object) do
     user_info = add_emoji_tags(user_info)
 
     object

@@ -117,8 +117,8 @@ defmodule Pleroma.Web.CommonAPI do
              )
            ),
          context <- make_context(inReplyTo),
-         cw <- data["spoiler_text"],
-         full_payload <- String.trim(status <> (data["spoiler_text"] || "")),
+         cw <- data["spoiler_text"] || "",
+         full_payload <- String.trim(status <> cw),
          length when length in 1..limit <- String.length(full_payload),
          object <-
            make_note_data(
@@ -136,7 +136,7 @@ defmodule Pleroma.Web.CommonAPI do
            Map.put(
              object,
              "emoji",
-             Formatter.get_emoji_map(status ++ data["spoiler_text"])
+             Formatter.get_emoji_map(full_payload)
            ) do
       res =
         ActivityPub.create(%{

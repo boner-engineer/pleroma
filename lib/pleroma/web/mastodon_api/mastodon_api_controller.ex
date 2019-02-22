@@ -7,6 +7,7 @@ defmodule Pleroma.Web.MastodonAPI.MastodonAPIController do
   alias Pleroma.Activity
   alias Pleroma.Config
   alias Pleroma.Filter
+  alias Pleroma.Formatter
   alias Pleroma.Notification
   alias Pleroma.Object
   alias Pleroma.Repo
@@ -98,6 +99,12 @@ defmodule Pleroma.Web.MastodonAPI.MastodonAPIController do
         end
       end)
 
+    emojis_text = (user_params["display_name"] || "") <> (user_params["note"] || "")
+
+    user_info_emojis =
+      ((user.info.emoji || []) ++ Formatter.get_emoji_map(emojis_text))
+      |> Enum.dedup()
+
     info_params =
       %{}
       |> add_if_present(params, "locked", :locked, fn value -> {:ok, value == "true"} end)
@@ -109,6 +116,7 @@ defmodule Pleroma.Web.MastodonAPI.MastodonAPIController do
           _ -> :error
         end
       end)
+      |> Map.put(:emoji, user_info_emojis)
 
     info_cng = User.Info.mastodon_profile_update(user.info, info_params)
 

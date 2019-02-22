@@ -69,7 +69,10 @@ defmodule Pleroma.Web.ActivityPub.UserView do
 
     endpoints = render("endpoints.json", %{user: user})
 
-    %{"tag" => user_tags} = Transmogrifier.add_emoji_tags(user)
+    user_tags =
+      user
+      |> Transmogrifier.add_emoji_tags()
+      |> Map.get("tag", [])
 
     %{
       "id" => user.ap_id,

@@ -1532,8 +1532,15 @@ defmodule Pleroma.Web.TwitterAPI.ControllerTest do
           "bio" => "I love our :moominmamma:​"
         })
 
-      assert %{"bio" => "I love our <img class='emoji' alt=':moominmamma:'/>"} =
-               json_response(conn, 200)
+      conn =
+        conn
+        |> get("/api/users/show.json?user_id=#{user.nickname}")
+
+      assert %{
+               "description_html" =>
+                 "I love our <img class=\"emoji\" alt=\"moominmamma\" title=\"moominmamma\" src=\"" <>
+                   _
+             } = json_response(conn, 200)
     end
   end
 

@@ -20,6 +20,7 @@ defmodule Pleroma.Web.TwitterAPI.Controller do
   alias Pleroma.Web.TwitterAPI.TwitterAPI
   alias Pleroma.Web.TwitterAPI.UserView
   alias Pleroma.Activity
+  alias Pleroma.Formatter
   alias Pleroma.Object
   alias Pleroma.Notification
   alias Pleroma.Repo
